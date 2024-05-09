@@ -43,6 +43,7 @@ def calculate_hand_value(hand):
 # Function to play the game
 def play_game():
     shuffle_deck()
+    money = int(input("How much money would you like to bet? "))
 
     player_hand = [deal_card(), deal_card()]
     dealer_hand = [deal_card(), deal_card()]
@@ -58,8 +59,10 @@ def play_game():
             if calculate_hand_value(player_hand) > 21:
                 print('Player busts! You lose.')
                 h.update_stats(False)
+                h.update_money(False, money)
                 h.print_stats()
                 print(f"Average win rate: {h.get_average_win_rate() * 100:.2f}%")
+                print(f"Money: {h.get_money()}")
                 break
         elif choice == 's':
             while calculate_hand_value(dealer_hand) < 17: # dealer's turn
@@ -75,17 +78,24 @@ def play_game():
                 print('Dealer busts! You win.')
                 h.update_stats(True)
                 h.print_stats()
+                h.update_money(True, money)
+                h.update_money(False, money)
                 print(f"Average win rate: {h.get_average_win_rate() * 100:.2f}%")
+                print(f"Money: {h.get_money()}")
             elif calculate_hand_value(dealer_hand) > calculate_hand_value(player_hand):
                 print('Dealer wins.')
                 h.update_stats(False)
+                h.update_money(False, money)
                 h.print_stats()
                 print(f"Average win rate: {h.get_average_win_rate() * 100:.2f}%")
+                print(f"Money: {h.get_money()}")
             elif calculate_hand_value(dealer_hand) < calculate_hand_value(player_hand):
                 print('You win.')
                 h.update_stats(True)
+                h.update_money(True, money)
                 h.print_stats()
                 print(f"Average win rate: {h.get_average_win_rate() * 100:.2f}%")
+                print(f"Money: {h.get_money()}")
             else:
                 print('It\'s a tie.')
             break

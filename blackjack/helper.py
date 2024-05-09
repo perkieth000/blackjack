@@ -27,3 +27,18 @@ def update_stats(won):
 def print_stats():
     stats = get_stats()
     print(f"Wins: {stats['wins']}\nLosses: {stats['losses']}")
+    
+def get_money():
+    stats = get_stats()
+    return stats['money']
+
+def update_money(won, money):
+    with open(directory, 'r') as file:
+        stats = json.load(file)
+        if won:
+            stats["money"] += money
+        else: 
+            stats["money"] -= money
+        with open(directory, 'w') as file:
+            json.dump(stats, file, indent=4)
+    
